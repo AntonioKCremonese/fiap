@@ -5,11 +5,11 @@
 ## Enums
 - [x] UserTypeEnum
 ## Persistência
- - [] Adicionar JPA
- - [] Criar entities
- - [] Alterar driver de postgres para Mysql
+- [] Adicionar JPA
+- [] Criar entities
+- [] Alterar driver de postgres para Mysql
 ## Endpoints
- - [] User Controller
- - [] GET/POST/PUT/DELETE User
+- [] User Controller
+- [] GET/POST/PUT/DELETE User
 ## Documentação
 - [] Swagger
