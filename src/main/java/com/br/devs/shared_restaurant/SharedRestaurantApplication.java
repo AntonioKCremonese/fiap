@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SharedRestaurantApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SharedRestaurantApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(SharedRestaurantApplication.class, args);
+    }
 }
