@@ -1,11 +1,13 @@
 CREATE TABLE Address(
-    Id UUID NOT NULL PRIMARY KEY,
-    Street VARCHAR(255) NOT NULL,
-    Number INTEGER NOT NULL,
-    District VARCHAR(255) NOT NULL,
-    Adjunct VARCHAR(255),
-    City VARCHAR(100),
-    State VARCHAR(100),
-    Country VARCHAR(70),
-    LastUpdate DATE NOT NULL DEFAULT CURRENT_DATE
+    id CHAR(36) NOT NULL PRIMARY KEY,
+    street VARCHAR(255) NOT NULL,
+    number INTEGER NOT NULL,
+    complement VARCHAR(255),
+    neighborhood VARCHAR(255) NOT NULL,
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(70),
+    postal_code VARCHAR(20),
+    reference VARCHAR(100),
+    last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

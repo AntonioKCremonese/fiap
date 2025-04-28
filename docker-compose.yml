@@ -12,6 +12,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
+    networks:
+      - app-network
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -22,11 +24,17 @@ services:
       - mysql
     ports:
       - "8080:8080"
+    networks:
+      - app-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_container:3306/${MYSQL_DATABASE}
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
-    command: ["java", "-jar", "shared-restaurant.jar"]
+    command: [ "./docker/wait-for-it.sh", "mysql_container:3306", "--", "java", "-jar", "shared-restaurant.jar" ]
 
 volumes:
   mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
