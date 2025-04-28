@@ -1,15 +1,26 @@
 # **TODO**
 ## Criação das classes base
-- [x]  User
-- [x]  Address
+- [x] User
+- [x] Address
 ## Enums
 - [x] UserTypeEnum
 ## Persistência
-- [ ] Adicionar JPA
-- [ ] Criar entities
-- [ ] Alterar driver de postgres para Mysql
+- [x] Adicionar JPA
+- [x] Criar entities
+- [x] Alterar driver de postgres para Mysql
 ## Endpoints
-- [ ] User Controller
-- [ ] GET/POST/PUT/DELETE User
+- [x] User Controller
+- [x] GET User
+- [x] POST User
+- [x] PUT User
+- [x] DELETE User
+## Docker
+- [x] docker-compose e dockerfile
 ## Documentação
 - [ ] Swagger
+## Outras pendências
+- [ ] Adicionar validação para criação/atualização de usuário (validar se já existe email e login)
+- [ ] Criptografar senha usando PasswordEncoder do Spring Security
+- [ ] Adicionar validação para confirmação de senha do usuário durante o cadastro
+- [ ] Melhorar exceção de usuário não encontrado
+- [ ] Adicionar implentação para criação do endereço (junto do usuário? separado?)
