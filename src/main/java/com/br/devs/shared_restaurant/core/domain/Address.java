@@ -15,4 +15,7 @@ public class Address {
     private int number;
     private String district;
     private String adjunct;
+    private String city;
+    private String state;
+    private String country;
 }
