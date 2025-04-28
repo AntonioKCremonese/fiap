@@ -12,8 +12,10 @@
 - [x] User Controller
 - [x] GET User
 - [x] POST User
-- [ ] PUT User
-- [ ] DELETE User
+- [x] PUT User
+- [x] DELETE User
+## Docker
+- [x] docker-compose e dockerfile
 ## Documentação
 - [ ] Swagger
 ## Outras pendências
