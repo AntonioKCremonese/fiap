@@ -24,12 +24,12 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserOutput createUser(@RequestBody UserInput input) {
-        return userService.createOrUpdateUser(input);
+        return userService.createUser(input);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@RequestBody UserInput input) { userService.createOrUpdateUser(input); }
+    public void updateUser(@RequestBody UserInput input) { userService.updateUser(input); }
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

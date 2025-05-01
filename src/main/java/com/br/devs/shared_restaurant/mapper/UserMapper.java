@@ -3,7 +3,6 @@ package com.br.devs.shared_restaurant.mapper;
 import com.br.devs.shared_restaurant.dto.UserInput;
 import com.br.devs.shared_restaurant.dto.UserOutput;
 import com.br.devs.shared_restaurant.model.User;
-import com.br.devs.shared_restaurant.model.enums.UserTypeEnum;
 
 public class UserMapper {
 
@@ -18,7 +17,7 @@ public class UserMapper {
     public static User toEntity(UserInput input) {
         return new User(
                 input.name(),
-                input.email(),
+                input.mail(),
                 input.login(),
                 input.password(),
                 input.userType()
