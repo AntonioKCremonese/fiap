@@ -4,9 +4,10 @@ import com.br.devs.shared_restaurant.model.enums.UserTypeEnum;
 
 public record UserInput(
         String name,
-        String email,
+        String mail,
         String login,
         String password,
         String passwordConfirmation,
-        UserTypeEnum userType) {
+        UserTypeEnum userType,
+        AddressDTO address) {
 }
