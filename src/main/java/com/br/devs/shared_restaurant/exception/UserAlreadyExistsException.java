@@ -8,6 +8,6 @@ public class UserAlreadyExistsException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public UserAlreadyExistsException() {
-        super("Usuário com mail ou login já cadastrado");
+        super("Usuário com email ou login já cadastrado");
     }
 }
