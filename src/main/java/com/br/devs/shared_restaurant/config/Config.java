@@ -1,15 +1,16 @@
 package com.br.devs.shared_restaurant.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 @EnableWebSecurity
-public class Configuration {
+public class Config {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
