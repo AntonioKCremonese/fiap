@@ -20,7 +20,7 @@
 - [ ] Swagger
 ## Outras pendências
 - [x] Adicionar validação para criação/atualização de usuário (validar se já existe email e login)
-- [ ] Criptografar senha usando PasswordEncoder do Spring Security
-- [ ] Adicionar validação para confirmação de senha do usuário durante o cadastro
-- [ ] Melhorar exceção de usuário não encontrado
+- [x] Criptografar senha usando PasswordEncoder do Spring Security
+- [x] Adicionar validação para confirmação de senha do usuário durante o cadastro
+- [ ] Melhorar exceção de usuário não encontrado / usuário já existente
 - [ ] Adicionar implentação para criação do endereço (junto do usuário? separado?)
