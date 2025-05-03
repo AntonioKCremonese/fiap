@@ -7,6 +7,7 @@ import com.br.devs.shared_restaurant.dto.UserOutput;
 import com.br.devs.shared_restaurant.exception.UserNotFoundException;
 import com.br.devs.shared_restaurant.mapper.UserMapper;
 import com.br.devs.shared_restaurant.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +16,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -30,6 +34,7 @@ public class UserService {
     public UserOutput createUser(UserInput userInput) {
         userAlreadyExists(userInput.mail(), userInput.login());
         User user = UserMapper.toEntity(userInput);
+        user.setPassword(encodePassword(user.getPassword()));
         return UserMapper.fromEntity(userRepository.save(user));
     }
 
@@ -48,5 +53,9 @@ public class UserService {
         userRepository.findByMailOrLogin(mail, login).ifPresent(user -> {
             throw new UserAlreadyExistsException();
         });
+    }
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }
