@@ -14,6 +14,7 @@
 - [x] POST User
 - [x] PUT User
 - [x] DELETE User
+- [ ] Login
 ## Docker
 - [x] docker-compose e dockerfile
 ## Documentação
@@ -25,3 +26,5 @@
 - [x] Melhorar exceção de usuário não encontrado / usuário já existente
 - [x] Adicionar validação do spring nos campos de DTO do UserInput
 - [ ] Adicionar implentação para criação do endereço (junto do usuário? separado?)
+- [ ] Validação de login
+- [ ] Criar jwt token para login?
