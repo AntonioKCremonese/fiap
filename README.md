@@ -23,4 +23,5 @@
 - [x] Criptografar senha usando PasswordEncoder do Spring Security
 - [x] Adicionar validação para confirmação de senha do usuário durante o cadastro
 - [x] Melhorar exceção de usuário não encontrado / usuário já existente
+- [x] Adicionar validação do spring nos campos de DTO do UserInput
 - [ ] Adicionar implentação para criação do endereço (junto do usuário? separado?)
