@@ -3,6 +3,7 @@ package com.br.devs.shared_restaurant.controller;
 import com.br.devs.shared_restaurant.dto.UserInput;
 import com.br.devs.shared_restaurant.dto.UserOutput;
 import com.br.devs.shared_restaurant.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserOutput createUser(@RequestBody UserInput input) {
+    public UserOutput createUser(@RequestBody @Valid UserInput input) {
         return userService.createUser(input);
     }
 

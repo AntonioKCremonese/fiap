@@ -1,6 +1,7 @@
 package com.br.devs.shared_restaurant.service;
 
 import com.br.devs.shared_restaurant.exception.UserAlreadyExistsException;
+import com.br.devs.shared_restaurant.exception.UserValidationException;
 import com.br.devs.shared_restaurant.model.User;
 import com.br.devs.shared_restaurant.dto.UserInput;
 import com.br.devs.shared_restaurant.dto.UserOutput;
@@ -32,6 +33,9 @@ public class UserService {
 
     @Transactional
     public UserOutput createUser(UserInput userInput) {
+        if (!userInput.password().equals(userInput.passwordConfirmation())) {
+           throw UserValidationException.confirmationPasswordNotValid();
+        }
         userAlreadyExists(userInput.mail(), userInput.login());
         User user = UserMapper.toEntity(userInput);
         user.setPassword(encodePassword(user.getPassword()));
