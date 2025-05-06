@@ -12,13 +12,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "Address")
+@Table(name = "address")
 public class Address {
 
     @Id
@@ -57,4 +57,16 @@ public class Address {
     @UpdateTimestamp
     @Column(name = "last_update", columnDefinition = "datetime")
     private OffsetDateTime lastUpdate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(id, address.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

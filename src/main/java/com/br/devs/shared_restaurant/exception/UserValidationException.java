@@ -22,4 +22,8 @@ public final class UserValidationException extends RuntimeException {
     public static UserValidationException confirmationPasswordNotValid() {
         return new UserValidationException("Senha de confirmação inválida");
     }
+
+    public static UserValidationException existingPasswordNotValid() {
+        return new UserValidationException("A senha atual informada não coincide com a senha cadastrada");
+    }
 }
