@@ -1,8 +1,9 @@
 package com.br.devs.shared_restaurant.dto;
 
-public record AddressDTO(
+public record AddressOutputDTO(
+        String id,
         String street,
-        int number,
+        Integer number,
         String complement,
         String neighborhood,
         String city,

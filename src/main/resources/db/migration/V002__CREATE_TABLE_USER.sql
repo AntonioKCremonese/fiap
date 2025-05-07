@@ -1,12 +1,12 @@
-CREATE TABLE Users(
+CREATE TABLE `user` (
     id CHAR(36) NOT NULL PRIMARY KEY,
     name VARCHAR(125) NOT NULL,
     mail VARCHAR(200) NOT NULL UNIQUE,
     login VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_type VARCHAR(30) NOT NULL,
-    address_id CHAR(36) NOT NULL UNIQUE,
+    address_id CHAR(36) NULL UNIQUE,
 
-    FOREIGN KEY (address_id) REFERENCES Users(id)
+    FOREIGN KEY (address_id) REFERENCES address (id)
 );
