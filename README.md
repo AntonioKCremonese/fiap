@@ -17,8 +17,6 @@
 - [ ] Login
 ## Docker
 - [x] docker-compose e dockerfile
-## Documentação
-- [ ] Swagger
 ## Outras pendências
 - [x] Adicionar validação para criação/atualização de usuário (validar se já existe email e login)
 - [x] Criptografar senha usando PasswordEncoder do Spring Security
@@ -26,5 +24,3 @@
 - [x] Melhorar exceção de usuário não encontrado / usuário já existente
 - [x] Adicionar validação do spring nos campos de DTO do UserInput
 - [ ] Adicionar implentação para criação do endereço (junto do usuário? separado? ao editar usuário, editar também o endereço? endpoint separado para editar endereço?)
-- [ ] Validação de login
-- [ ] Criar jwt token para login?
