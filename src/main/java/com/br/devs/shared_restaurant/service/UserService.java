@@ -1,12 +1,8 @@
 package com.br.devs.shared_restaurant.service;
 
-import com.br.devs.shared_restaurant.dto.PasswordUpdateDTO;
-import com.br.devs.shared_restaurant.dto.UserCreateDTO;
-import com.br.devs.shared_restaurant.dto.UserOutputDTO;
-import com.br.devs.shared_restaurant.dto.UserUpdateDTO;
-import com.br.devs.shared_restaurant.exception.UserAlreadyExistsException;
-import com.br.devs.shared_restaurant.exception.UserNotFoundException;
+import com.br.devs.shared_restaurant.dto.*;
 import com.br.devs.shared_restaurant.exception.UserValidationException;
+import com.br.devs.shared_restaurant.mapper.AddressMapper;
 import com.br.devs.shared_restaurant.mapper.UserMapper;
 import com.br.devs.shared_restaurant.model.User;
 import com.br.devs.shared_restaurant.repository.UserRepository;
@@ -37,13 +33,13 @@ public class UserService {
 
         userRepository.findByLogin(input.login()).ifPresent(user -> {
             if (user.getLogin().equals(input.login())) {
-                throw new UserAlreadyExistsException("Já existe um usuário cadastrado com este login.");
+                throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este login.");
             }
         });
 
         userRepository.findByMail(input.mail()).ifPresent(user -> {
             if (user.getMail().equals(input.mail())) {
-                throw new UserAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
+                throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
             }
         });
 
@@ -58,13 +54,13 @@ public class UserService {
 
         userRepository.findByLogin(input.login()).ifPresent(user -> {
             if (user.getLogin().equals(input.login()) && !existingUser.equals(user)) {
-                throw new UserAlreadyExistsException("Já existe um usuário cadastrado com este login.");
+                throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este login");
             }
         });
 
         userRepository.findByMail(input.mail()).ifPresent(user -> {
             if (user.getMail().equals(input.mail()) && !existingUser.equals(user)) {
-                throw new UserAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
+                throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
             }
         });
 
@@ -90,8 +86,15 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public UserOutputDTO updateUserAddress(String userId, AddressInputDTO input) {
+        var user = findById(userId);
+        user.setAddress(AddressMapper.toEntity(input));
+        return UserMapper.fromEntity(userRepository.save(user));
+    }
+
     private User findById(String id) {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(id).orElseThrow(UserValidationException::userNotFoundException);
     }
 
     private String encodePassword(String password) {

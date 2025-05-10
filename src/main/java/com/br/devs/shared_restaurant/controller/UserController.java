@@ -1,9 +1,6 @@
 package com.br.devs.shared_restaurant.controller;
 
-import com.br.devs.shared_restaurant.dto.PasswordUpdateDTO;
-import com.br.devs.shared_restaurant.dto.UserCreateDTO;
-import com.br.devs.shared_restaurant.dto.UserOutputDTO;
-import com.br.devs.shared_restaurant.dto.UserUpdateDTO;
+import com.br.devs.shared_restaurant.dto.*;
 import com.br.devs.shared_restaurant.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -53,5 +50,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePassword(@PathVariable String userId, @RequestBody @Valid PasswordUpdateDTO input) {
         userService.updatePassword(userId, input);
+    }
+
+    @PutMapping("/{userId}/address")
+    public UserOutputDTO updateUserAddress(@PathVariable String userId, @RequestBody @Valid AddressInputDTO input) {
+        return userService.updateUserAddress(userId, input);
     }
 }
