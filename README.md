@@ -14,7 +14,7 @@
 - [x] POST User
 - [x] PUT User
 - [x] DELETE User
-- [ ] Login
+- [x] Login
 ## Docker
 - [x] docker-compose e dockerfile
 ## Outras pendências
@@ -23,4 +23,4 @@
 - [x] Adicionar validação para confirmação de senha do usuário durante o cadastro
 - [x] Melhorar exceção de usuário não encontrado / usuário já existente
 - [x] Adicionar validação do spring nos campos de DTO do UserInput
-- [ ] Adicionar implentação para criação do endereço (junto do usuário? separado? ao editar usuário, editar também o endereço? endpoint separado para editar endereço?)
+- [x] Adicionar implentação para criação do endereço (junto do usuário? separado? ao editar usuário, editar também o endereço? endpoint separado para editar endereço?)
