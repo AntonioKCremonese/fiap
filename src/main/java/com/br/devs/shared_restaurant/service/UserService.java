@@ -1,12 +1,15 @@
 package com.br.devs.shared_restaurant.service;
 
-import com.br.devs.shared_restaurant.dto.*;
+import com.br.devs.shared_restaurant.dto.AddressInputDTO;
+import com.br.devs.shared_restaurant.dto.PasswordUpdateDTO;
+import com.br.devs.shared_restaurant.dto.UserCreateDTO;
+import com.br.devs.shared_restaurant.dto.UserOutputDTO;
+import com.br.devs.shared_restaurant.dto.UserUpdateDTO;
 import com.br.devs.shared_restaurant.exception.UserValidationException;
 import com.br.devs.shared_restaurant.mapper.AddressMapper;
 import com.br.devs.shared_restaurant.mapper.UserMapper;
 import com.br.devs.shared_restaurant.model.User;
 import com.br.devs.shared_restaurant.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +18,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -44,7 +44,6 @@ public class UserService {
         });
 
         User user = UserMapper.toEntity(input);
-        user.setPassword(encodePassword(user.getPassword()));
         return UserMapper.fromEntity(userRepository.save(user));
     }
 
@@ -78,11 +77,11 @@ public class UserService {
         validatePasswordConfirmation(input.newPassword(), input.passwordConfirmation());
         User user = findById(id);
 
-        if (!passwordEncoder.matches(input.currentPassword(), user.getPassword())) {
+        if (!user.getPassword().equals(input.currentPassword())) {
             throw UserValidationException.existingPasswordNotValid();
         }
 
-        user.updatePassword(encodePassword(input.newPassword()));
+        user.updatePassword(input.newPassword());
         userRepository.save(user);
     }
 
@@ -97,8 +96,8 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(UserValidationException::userNotFoundException);
     }
 
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    protected User findByLogin(String login) {
+        return userRepository.findByLogin(login).orElseThrow(UserValidationException::userNotFoundException);
     }
 
     private static void validatePasswordConfirmation(String password, String passwordConfirmation) {
