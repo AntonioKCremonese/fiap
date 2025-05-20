@@ -14,16 +14,16 @@ public class AuthController {
 
     private final AuthService authService;
 
-    AuthController(AuthService authService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping
     public ResponseEntity<String> login(@RequestBody AuthDTO authDTO) {
-        var isLoginValid = this.authService.login(authDTO);
-        if (!isLoginValid) {
-            return ResponseEntity.badRequest().body("Falha ao logar usuário");
+        if (!authService.isValidPassword(authDTO)) {
+            return ResponseEntity.badRequest().body("Senha inválida.");
         }
-        return ResponseEntity.ok("Login efetuado com sucesso");
+
+        return ResponseEntity.ok("Login efetuado com sucesso.");
     }
 }

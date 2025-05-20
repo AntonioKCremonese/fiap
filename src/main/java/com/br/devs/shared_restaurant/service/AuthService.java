@@ -1,27 +1,21 @@
 package com.br.devs.shared_restaurant.service;
 
 import com.br.devs.shared_restaurant.dto.AuthDTO;
-import com.br.devs.shared_restaurant.exception.UserValidationException;
-import com.br.devs.shared_restaurant.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    AuthService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public AuthService(UserService userService) {
+        this.userService = userService;
     }
 
-    public boolean login(AuthDTO authDTO) {
-        var user = this.userRepository.findByLogin(authDTO.login())
-                .orElseThrow(UserValidationException::userNotFoundException);
-
-        return passwordEncoder.matches(authDTO.password(), user.getPassword());
+    @Transactional(readOnly = true)
+    public boolean isValidPassword(AuthDTO authDTO) {
+        var user = userService.findByLogin(authDTO.login());
+        return user.getPassword().equals(authDTO.password());
     }
 }
