@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.dto;
+package com.br.devs.shared_restaurant.dto.output;
 
 public record AddressOutputDTO(
         String id,

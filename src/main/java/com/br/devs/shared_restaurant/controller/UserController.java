@@ -1,6 +1,10 @@
 package com.br.devs.shared_restaurant.controller;
 
-import com.br.devs.shared_restaurant.dto.*;
+import com.br.devs.shared_restaurant.dto.input.AddressInputDTO;
+import com.br.devs.shared_restaurant.dto.input.PasswordUpdateDTO;
+import com.br.devs.shared_restaurant.dto.input.UserCreateDTO;
+import com.br.devs.shared_restaurant.dto.input.UserUpdateDTO;
+import com.br.devs.shared_restaurant.dto.output.UserOutputDTO;
 import com.br.devs.shared_restaurant.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

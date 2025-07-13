@@ -1,14 +1,12 @@
-package com.br.devs.shared_restaurant.dto;
+package com.br.devs.shared_restaurant.dto.input;
 
 import com.br.devs.shared_restaurant.model.enums.UserTypeEnum;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record UserCreateDTO(
+public record UserUpdateDTO(
         @Size(max = 125, message = "O nome deve ter no máximo 125 caracteres")
         @NotBlank(message = "O nome é obrigatório")
         String name,
@@ -22,18 +20,6 @@ public record UserCreateDTO(
         @NotBlank(message = "O login é obrigatório")
         String login,
 
-        @NotBlank(message = "A senha é obrigatória")
-        @Size(min = 8, max = 100, message = "A senha deve ter entre 8 e 100 caracteres")
-        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).*$",
-                message = "A senha deve conter letras maiúsculas, minúsculas e números")
-        String password,
-
-        @NotBlank(message = "A confirmação de senha é obrigatória")
-        String passwordConfirmation,
-
         @NotNull(message = "O tipo de usuário é obrigatório")
-        UserTypeEnum userType,
-
-        @Valid
-        AddressInputDTO address) {
+        UserTypeEnum userType) {
 }

@@ -1,7 +1,7 @@
 package com.br.devs.shared_restaurant.mapper;
 
-import com.br.devs.shared_restaurant.dto.AddressInputDTO;
-import com.br.devs.shared_restaurant.dto.AddressOutputDTO;
+import com.br.devs.shared_restaurant.dto.input.AddressInputDTO;
+import com.br.devs.shared_restaurant.dto.output.AddressOutputDTO;
 import com.br.devs.shared_restaurant.model.Address;
 
 public class AddressMapper {
