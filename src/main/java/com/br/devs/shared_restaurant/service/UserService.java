@@ -1,10 +1,10 @@
 package com.br.devs.shared_restaurant.service;
 
-import com.br.devs.shared_restaurant.dto.AddressInputDTO;
-import com.br.devs.shared_restaurant.dto.PasswordUpdateDTO;
-import com.br.devs.shared_restaurant.dto.UserCreateDTO;
-import com.br.devs.shared_restaurant.dto.UserOutputDTO;
-import com.br.devs.shared_restaurant.dto.UserUpdateDTO;
+import com.br.devs.shared_restaurant.dto.input.AddressInputDTO;
+import com.br.devs.shared_restaurant.dto.input.PasswordUpdateDTO;
+import com.br.devs.shared_restaurant.dto.input.UserCreateDTO;
+import com.br.devs.shared_restaurant.dto.output.UserOutputDTO;
+import com.br.devs.shared_restaurant.dto.input.UserUpdateDTO;
 import com.br.devs.shared_restaurant.exception.UserValidationException;
 import com.br.devs.shared_restaurant.mapper.AddressMapper;
 import com.br.devs.shared_restaurant.mapper.UserMapper;

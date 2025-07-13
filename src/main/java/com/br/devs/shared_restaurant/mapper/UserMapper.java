@@ -1,9 +1,9 @@
 package com.br.devs.shared_restaurant.mapper;
 
-import com.br.devs.shared_restaurant.dto.AddressOutputDTO;
-import com.br.devs.shared_restaurant.dto.UserCreateDTO;
-import com.br.devs.shared_restaurant.dto.UserOutputDTO;
-import com.br.devs.shared_restaurant.dto.UserUpdateDTO;
+import com.br.devs.shared_restaurant.dto.output.AddressOutputDTO;
+import com.br.devs.shared_restaurant.dto.input.UserCreateDTO;
+import com.br.devs.shared_restaurant.dto.output.UserOutputDTO;
+import com.br.devs.shared_restaurant.dto.input.UserUpdateDTO;
 import com.br.devs.shared_restaurant.model.Address;
 import com.br.devs.shared_restaurant.model.User;
 

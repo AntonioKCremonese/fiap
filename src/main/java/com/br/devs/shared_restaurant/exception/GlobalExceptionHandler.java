@@ -25,6 +25,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.valueOf(error.getStatus()));
     }
 
+    @ExceptionHandler(CuisineTypeValidationException.class)
+    public ResponseEntity<ErrorResponse> handleCuisineTypeValidationException(CuisineTypeValidationException ex) {
+        var error = new ErrorResponse(
+                LocalDateTime.now(),
+                ex.getStatusCode().value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.valueOf(error.getStatus()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> validationErrors = new HashMap<>();

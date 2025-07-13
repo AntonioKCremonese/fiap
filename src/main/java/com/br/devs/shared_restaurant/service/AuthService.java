@@ -1,6 +1,6 @@
 package com.br.devs.shared_restaurant.service;
 
-import com.br.devs.shared_restaurant.dto.AuthDTO;
+import com.br.devs.shared_restaurant.dto.input.AuthDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
