@@ -35,6 +35,26 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.valueOf(error.getStatus()));
     }
 
+    @ExceptionHandler(RestaurantValidationException.class)
+    public ResponseEntity<ErrorResponse> handleRestaurantValidationException(RestaurantValidationException ex) {
+        var error = new ErrorResponse(
+                LocalDateTime.now(),
+                ex.getStatusCode().value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.valueOf(error.getStatus()));
+    }
+
+    @ExceptionHandler(MenuItemValidationException.class)
+    public ResponseEntity<ErrorResponse> handleMenuItemValidationException(MenuItemValidationException ex) {
+        var error = new ErrorResponse(
+                LocalDateTime.now(),
+                ex.getStatusCode().value(),
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(error, HttpStatus.valueOf(error.getStatus()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> validationErrors = new HashMap<>();

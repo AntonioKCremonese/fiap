@@ -17,7 +17,7 @@ public class RestaurantInputDTO {
 
     @Valid
     @NotNull
-    private AddressIdInputDTO address;
+    private AddressInputDTO address;
 
     @Valid
     @NotNull

@@ -21,4 +21,8 @@ public final class CuisineTypeValidationException extends RuntimeException {
     public static CuisineTypeValidationException cuisineTypeNotFoundException() {
         return new CuisineTypeValidationException("Tipo de cozinha não encontrado.", HttpStatus.NOT_FOUND);
     }
+
+    public static CuisineTypeValidationException cuisineTypeInUseException() {
+        return new CuisineTypeValidationException("O tipo de cozinha está em uso e não pode ser removido.", HttpStatus.BAD_REQUEST);
+    }
 }
