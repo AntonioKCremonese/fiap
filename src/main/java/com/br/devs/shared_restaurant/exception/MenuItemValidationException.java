@@ -21,4 +21,8 @@ public final class MenuItemValidationException extends RuntimeException {
     public static MenuItemValidationException menuItemNotFoundException() {
         return new MenuItemValidationException("Item do cardápio não encontrado.", HttpStatus.NOT_FOUND);
     }
+
+    public static MenuItemValidationException menuItemAlreadyExistsForRestaurant() {
+        return new MenuItemValidationException("Item do cardápio já está cadastrado para o restaurante.", HttpStatus.CONFLICT);
+    }
 }

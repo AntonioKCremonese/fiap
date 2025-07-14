@@ -9,6 +9,8 @@ import com.br.devs.shared_restaurant.repository.MenuItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class MenuItemService {
 
@@ -28,6 +30,7 @@ public class MenuItemService {
     public MenuItemOutputDTO create(MenuItemInputDTO menuItemInputDTO) {
         MenuItem menuItem = mapper.toEntity(menuItemInputDTO, MenuItem.class);
         menuItem.setRestaurant(restaurantService.findById(menuItemInputDTO.getRestaurant().getId()));
+        validateMenuItemAlreadyExistsOnRestaurant(menuItem.getName(), menuItem.getRestaurant().getId());
         menuItem = menuItemRepository.save(menuItem);
         return mapper.fromEntity(menuItem, MenuItemOutputDTO.class);
     }
@@ -55,5 +58,10 @@ public class MenuItemService {
     private MenuItem findById(String id) {
         return menuItemRepository.findById(id)
                 .orElseThrow(MenuItemValidationException::menuItemNotFoundException);
+    }
+
+    private void validateMenuItemAlreadyExistsOnRestaurant(String name, String restaurantId) {
+        menuItemRepository.findByNameAndRestaurant_Id(name, restaurantId)
+                .ifPresent((menuItem) -> {throw MenuItemValidationException.menuItemAlreadyExistsForRestaurant();});
     }
 }
