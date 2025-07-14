@@ -6,6 +6,7 @@ import com.br.devs.shared_restaurant.exception.CuisineTypeValidationException;
 import com.br.devs.shared_restaurant.mapper.GenericMapper;
 import com.br.devs.shared_restaurant.model.CuisineType;
 import com.br.devs.shared_restaurant.repository.CuisineTypeRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,10 +46,15 @@ public class CuisineTypeService {
 
     @Transactional
     public void delete(String id) {
-        cuisineTypeRepository.delete(findById(id));
+        try {
+            cuisineTypeRepository.delete(findById(id));
+            cuisineTypeRepository.flush();
+        } catch (DataIntegrityViolationException ex) {
+            throw CuisineTypeValidationException.cuisineTypeInUseException();
+        }
     }
 
-    private CuisineType findById(String id) {
+    protected CuisineType findById(String id) {
         return cuisineTypeRepository.findById(id)
                 .orElseThrow(CuisineTypeValidationException::cuisineTypeNotFoundException);
     }

@@ -9,5 +9,5 @@ import lombok.Setter;
 public class UserIdInputDTO {
 
     @NotNull
-    private Long id;
+    private String id;
 }

@@ -3,13 +3,13 @@ package com.br.devs.shared_restaurant.service;
 import com.br.devs.shared_restaurant.dto.input.AddressInputDTO;
 import com.br.devs.shared_restaurant.dto.input.PasswordUpdateDTO;
 import com.br.devs.shared_restaurant.dto.input.UserCreateDTO;
-import com.br.devs.shared_restaurant.dto.output.UserOutputDTO;
 import com.br.devs.shared_restaurant.dto.input.UserUpdateDTO;
+import com.br.devs.shared_restaurant.dto.output.UserOutputDTO;
 import com.br.devs.shared_restaurant.exception.UserValidationException;
-import com.br.devs.shared_restaurant.mapper.AddressMapper;
-import com.br.devs.shared_restaurant.mapper.UserMapper;
+import com.br.devs.shared_restaurant.model.Address;
 import com.br.devs.shared_restaurant.model.User;
 import com.br.devs.shared_restaurant.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,54 +17,57 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional(readOnly = true)
     public UserOutputDTO getUserById(String id) {
-        return UserMapper.fromEntity(findById(id));
+        User user = findById(id);
+        return modelMapper.map(user, UserOutputDTO.class);
     }
 
     @Transactional
     public UserOutputDTO createUser(UserCreateDTO input) {
-        validatePasswordConfirmation(input.password(), input.passwordConfirmation());
+        validatePasswordConfirmation(input.getPassword(), input.getPasswordConfirmation());
 
-        userRepository.findByLogin(input.login()).ifPresent(user -> {
-            if (user.getLogin().equals(input.login())) {
+        userRepository.findByLogin(input.getLogin()).ifPresent(user -> {
+            if (user.getLogin().equals(input.getLogin())) {
                 throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este login.");
             }
         });
 
-        userRepository.findByMail(input.mail()).ifPresent(user -> {
-            if (user.getMail().equals(input.mail())) {
+        userRepository.findByMail(input.getMail()).ifPresent(user -> {
+            if (user.getMail().equals(input.getMail())) {
                 throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
             }
         });
 
-        User user = UserMapper.toEntity(input);
-        return UserMapper.fromEntity(userRepository.save(user));
+        User user = modelMapper.map(input, User.class);
+        return modelMapper.map(userRepository.save(user), UserOutputDTO.class);
     }
 
     @Transactional
     public UserOutputDTO updateUser(String id, UserUpdateDTO input) {
         User existingUser = findById(id);
 
-        userRepository.findByLogin(input.login()).ifPresent(user -> {
-            if (user.getLogin().equals(input.login()) && !existingUser.equals(user)) {
+        userRepository.findByLogin(input.getLogin()).ifPresent(user -> {
+            if (user.getLogin().equals(input.getLogin()) && !existingUser.equals(user)) {
                 throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este login");
             }
         });
 
-        userRepository.findByMail(input.mail()).ifPresent(user -> {
-            if (user.getMail().equals(input.mail()) && !existingUser.equals(user)) {
+        userRepository.findByMail(input.getMail()).ifPresent(user -> {
+            if (user.getMail().equals(input.getMail()) && !existingUser.equals(user)) {
                 throw UserValidationException.userAlreadyExistsException("Já existe um usuário cadastrado com este e-mail.");
             }
         });
 
-        UserMapper.copyToEntity(existingUser, input);
-        return UserMapper.fromEntity(userRepository.save(existingUser));
+        modelMapper.map(input, existingUser);
+        return modelMapper.map(userRepository.save(existingUser), UserOutputDTO.class);
     }
 
     @Transactional
@@ -88,11 +91,11 @@ public class UserService {
     @Transactional
     public UserOutputDTO updateUserAddress(String userId, AddressInputDTO input) {
         var user = findById(userId);
-        user.setAddress(AddressMapper.toEntity(input));
-        return UserMapper.fromEntity(userRepository.save(user));
+        user.setAddress(modelMapper.map(input, Address.class));
+        return modelMapper.map(userRepository.save(user), UserOutputDTO.class);
     }
 
-    private User findById(String id) {
+    protected User findById(String id) {
         return userRepository.findById(id).orElseThrow(UserValidationException::userNotFoundException);
     }
 

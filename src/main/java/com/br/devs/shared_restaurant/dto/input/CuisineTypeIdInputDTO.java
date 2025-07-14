@@ -9,5 +9,5 @@ import lombok.Setter;
 public class CuisineTypeIdInputDTO {
 
     @NotNull
-    private Long id;
+    private String id;
 }
