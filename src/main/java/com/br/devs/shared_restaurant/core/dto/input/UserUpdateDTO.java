@@ -1,6 +1,6 @@
-package com.br.devs.shared_restaurant.dto.input;
+package com.br.devs.shared_restaurant.core.dto.input;
 
-import com.br.devs.shared_restaurant.model.enums.UserTypeEnum;
+import com.br.devs.shared_restaurant.core.entities.enums.UserTypeEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

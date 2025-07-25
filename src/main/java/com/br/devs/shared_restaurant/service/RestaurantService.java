@@ -1,7 +1,7 @@
 package com.br.devs.shared_restaurant.service;
 
-import com.br.devs.shared_restaurant.dto.input.RestaurantInputDTO;
-import com.br.devs.shared_restaurant.dto.output.RestaurantOutputDTO;
+import com.br.devs.shared_restaurant.core.dto.input.RestaurantInputDTO;
+import com.br.devs.shared_restaurant.core.dto.output.RestaurantOutputDTO;
 import com.br.devs.shared_restaurant.exception.RestaurantValidationException;
 import com.br.devs.shared_restaurant.mapper.GenericMapper;
 import com.br.devs.shared_restaurant.model.Restaurant;

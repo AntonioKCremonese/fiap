@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.dto.input;
+package com.br.devs.shared_restaurant.core.dto.input;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

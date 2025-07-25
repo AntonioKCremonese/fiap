@@ -1,7 +1,7 @@
 package com.br.devs.shared_restaurant.controller;
 
-import com.br.devs.shared_restaurant.dto.input.MenuItemInputDTO;
-import com.br.devs.shared_restaurant.dto.output.MenuItemOutputDTO;
+import com.br.devs.shared_restaurant.core.dto.input.MenuItemInputDTO;
+import com.br.devs.shared_restaurant.core.dto.output.MenuItemOutputDTO;
 import com.br.devs.shared_restaurant.service.MenuItemService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

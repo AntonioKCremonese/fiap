@@ -1,6 +1,6 @@
-package com.br.devs.shared_restaurant.dto.output;
+package com.br.devs.shared_restaurant.core.dto.output;
 
-import com.br.devs.shared_restaurant.model.enums.UserTypeEnum;
+import com.br.devs.shared_restaurant.core.entities.enums.UserTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
