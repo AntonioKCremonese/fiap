@@ -1,12 +1,10 @@
 package com.br.devs.shared_restaurant.core.entities;
 
+import com.br.devs.shared_restaurant.core.dto.output.UserOutputDTO;
 import com.br.devs.shared_restaurant.core.entities.enums.UserTypeEnum;
 import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
 import com.br.devs.shared_restaurant.core.dto.input.UserCreateDTO;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
@@ -14,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 @Builder
 @EqualsAndHashCode
+@ToString
 public class User {
     private String id;
     private String name;
@@ -32,6 +31,21 @@ public class User {
                 .login(userCreateDTO.getLogin())
                 .password(userCreateDTO.getPassword())
                 .userType(userCreateDTO.getUserType())
+                .lastUpdate(OffsetDateTime.now())
+                .address(address)
+                .build();
+    }
+
+    public static User create(UserOutputDTO userOutputDTO, Address address) {
+        if (userOutputDTO == null) {
+            return null;
+        }
+        return User.builder()
+                .id(userOutputDTO.getId())
+                .name(userOutputDTO.getName())
+                .mail(userOutputDTO.getMail())
+                .login(userOutputDTO.getLogin())
+                .userType(userOutputDTO.getUserType())
                 .lastUpdate(OffsetDateTime.now())
                 .address(address)
                 .build();

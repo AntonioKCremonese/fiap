@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.mapper;
+package com.br.devs.shared_restaurant.application.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

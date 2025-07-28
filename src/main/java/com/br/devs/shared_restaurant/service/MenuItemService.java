@@ -3,9 +3,9 @@ package com.br.devs.shared_restaurant.service;
 import com.br.devs.shared_restaurant.core.dto.input.MenuItemInputDTO;
 import com.br.devs.shared_restaurant.core.dto.output.MenuItemOutputDTO;
 import com.br.devs.shared_restaurant.exception.MenuItemValidationException;
-import com.br.devs.shared_restaurant.mapper.GenericMapper;
-import com.br.devs.shared_restaurant.model.MenuItem;
-import com.br.devs.shared_restaurant.repository.MenuItemRepository;
+import com.br.devs.shared_restaurant.application.mapper.GenericMapper;
+import com.br.devs.shared_restaurant.infrastructure.model.MenuItem;
+import com.br.devs.shared_restaurant.infrastructure.repository.MenuItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

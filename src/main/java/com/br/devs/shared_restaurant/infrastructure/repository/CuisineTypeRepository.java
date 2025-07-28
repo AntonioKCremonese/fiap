@@ -1,6 +1,6 @@
-package com.br.devs.shared_restaurant.repository;
+package com.br.devs.shared_restaurant.infrastructure.repository;
 
-import com.br.devs.shared_restaurant.model.CuisineType;
+import com.br.devs.shared_restaurant.infrastructure.model.CuisineType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

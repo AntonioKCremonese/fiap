@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.model;
+package com.br.devs.shared_restaurant.infrastructure.model;
 
 import com.br.devs.shared_restaurant.core.entities.enums.UserTypeEnum;
 import jakarta.persistence.CascadeType;

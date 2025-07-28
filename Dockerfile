@@ -1,10 +1,18 @@
-FROM openjdk:21
-COPY target/shared-restaurant-0.0.1-SNAPSHOT.jar shared-restaurant.jar
+FROM maven:3.9.6-eclipse-temurin-21 as build
+WORKDIR /app
 
-# Copiar o script wait-for-it.sh para o container
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+FROM openjdk:21
+WORKDIR /app
+
+COPY --from=build /app/target/shared-restaurant-0.0.1-SNAPSHOT.jar shared-restaurant.jar
+
 COPY ./docker/wait-for-it.sh /wait-for-it.sh
 
-# Garantir permissão de execução
 RUN chmod +x /wait-for-it.sh
 
 EXPOSE 8080

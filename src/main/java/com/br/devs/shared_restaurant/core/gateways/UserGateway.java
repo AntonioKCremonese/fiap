@@ -1,23 +1,32 @@
 package com.br.devs.shared_restaurant.core.gateways;
 
 import com.br.devs.shared_restaurant.core.dto.output.UserOutputDTO;
+import com.br.devs.shared_restaurant.core.entities.Address;
 import com.br.devs.shared_restaurant.core.entities.User;
-import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
 import com.br.devs.shared_restaurant.core.interfaces.IDataSource;
 import com.br.devs.shared_restaurant.core.interfaces.IUserGateway;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
+@Slf4j
 public class UserGateway implements IUserGateway {
-    private IDataSource dataSource;
+    private final IDataSource dataSource;
+
+    private UserGateway(IDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public static UserGateway create(IDataSource dataSource) {
+        return new UserGateway(dataSource);
+    }
 
     @Override
     public Optional<User> findByLogin(String login) {
         UserOutputDTO userOutputDTO = dataSource.findByLogin(login);
-        if (userOutputDTO == null) {
-            throw UserValidationException.userNotFoundException();
-        }
-        return Optional.ofNullable(User.create(userOutputDTO.getId(), userOutputDTO));
+        log.info("User output {}", userOutputDTO);
+        Address address = Address.create(userOutputDTO.getAddress());
+        return Optional.ofNullable(User.create(userOutputDTO, address));
     }
 
     @Override

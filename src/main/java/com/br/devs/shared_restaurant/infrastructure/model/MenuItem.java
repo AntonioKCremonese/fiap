@@ -1,21 +1,24 @@
-package com.br.devs.shared_restaurant.model;
+package com.br.devs.shared_restaurant.infrastructure.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "cuisine_type")
-public class CuisineType {
+@Table(name = "menu_item")
+public class MenuItem {
 
     @Id
     @GeneratedValue
@@ -26,10 +29,26 @@ public class CuisineType {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "available_for_dine_in_only")
+    private boolean availableForDineInOnly;
+
+    @Column(name = "photo_path")
+    private String photoPath;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        CuisineType that = (CuisineType) o;
+        MenuItem that = (MenuItem) o;
         return Objects.equals(id, that.id);
     }
 

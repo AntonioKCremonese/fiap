@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.model;
+package com.br.devs.shared_restaurant.infrastructure.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
