@@ -25,7 +25,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue
@@ -57,7 +57,7 @@ public class User {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    public User(String name, String mail, String login, String password, UserTypeEnum userType, Address address) {
+    public UserEntity(String name, String mail, String login, String password, UserTypeEnum userType, Address address) {
         this.name = name;
         this.mail = mail;
         this.login = login;
@@ -73,7 +73,7 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+        UserEntity user = (UserEntity) o;
         return Objects.equals(id, user.id);
     }
 

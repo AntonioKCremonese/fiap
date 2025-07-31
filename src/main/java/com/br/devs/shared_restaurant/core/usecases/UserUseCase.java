@@ -5,6 +5,7 @@ import com.br.devs.shared_restaurant.core.entities.User;
 import com.br.devs.shared_restaurant.core.interfaces.IUserGateway;
 import com.br.devs.shared_restaurant.core.dto.input.UserCreateDTO;
 import com.br.devs.shared_restaurant.core.dto.output.UserOutputDTO;
+import com.br.devs.shared_restaurant.core.interfaces.IUserUseCase;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,20 +21,20 @@ public class UserUseCase {
         return new UserUseCase(userGateway);
     }
 
-    public User createUser(UserCreateDTO userCreateDTO) {
-        log.info("Criando ..");
-        User.validatePasswordConfirmation(userCreateDTO.getPassword(), userCreateDTO.getPasswordConfirmation());
-        log.info("Passou validação password ..");
-        userGateway.findByLogin(userCreateDTO.getLogin()).ifPresent(user -> User.validateLoginAlreadyExists(user.getLogin(), userCreateDTO.getLogin()));
-        log.info("Passou validação login ..");
-        userGateway.findByMail(userCreateDTO.getMail()).ifPresent(user -> User.validateMailAlreadyExists(user.getMail(), userCreateDTO.getMail()));
-        log.info("Passou validação mail ..");
-        Address address = Address.create(null, userCreateDTO.getAddress());
-        log.info("Criou endereço ..");
-        User user = User.create(null, userCreateDTO, address);
-        log.info("Salvando User ..");
-        return userGateway.save(user);
-    }
+//    public User createUser(UserCreateDTO userCreateDTO) {
+//        log.info("Criando ..");
+//        User.validatePasswordConfirmation(userCreateDTO.getPassword(), userCreateDTO.getPasswordConfirmation());
+//        log.info("Passou validação password ..");
+//        userGateway.findByLogin(userCreateDTO.getLogin()).ifPresent(user -> User.validateLoginAlreadyExists(user.getLogin(), userCreateDTO.getLogin()));
+//        log.info("Passou validação login ..");
+//        userGateway.findByMail(userCreateDTO.getMail()).ifPresent(user -> User.validateMailAlreadyExists(user.getMail(), userCreateDTO.getMail()));
+//        log.info("Passou validação mail ..");
+//        Address address = Address.create(null, userCreateDTO.getAddress());
+//        log.info("Criou endereço ..");
+//        User user = User.create(null, userCreateDTO, address);
+//        log.info("Salvando User ..");
+//        return userGateway.save(user);
+//    }
 
     public UserOutputDTO updateUser() {
         return null;

@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.core.entities.mappers;
+package com.br.devs.shared_restaurant.application.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

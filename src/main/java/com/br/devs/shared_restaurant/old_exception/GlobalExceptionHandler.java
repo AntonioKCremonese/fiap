@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.exception;
+package com.br.devs.shared_restaurant.old_exception;
 
 import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
 import org.springframework.http.HttpStatus;

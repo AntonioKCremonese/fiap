@@ -6,8 +6,9 @@ import java.util.Optional;
 
 public interface IUserGateway {
 
-    Optional<User> findByLogin(String login);
-    Optional<User> findByMail(String mail);
-    Optional<User> findById(String id);
+    Optional<User> findUserByLogin(String login);
+    Optional<User> findUserByMail(String mail);
+    Optional<User> findUserById(String id);
     User save(User user);
+    void deleteUserById(String userId);
 }

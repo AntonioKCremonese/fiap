@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.service;
+package com.br.devs.shared_restaurant.old_service;
 
 import com.br.devs.shared_restaurant.core.dto.input.AuthDTO;
 import org.springframework.stereotype.Service;

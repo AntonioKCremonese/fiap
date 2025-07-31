@@ -1,7 +1,7 @@
-package com.br.devs.shared_restaurant.controller;
+package com.br.devs.shared_restaurant.old_controller;
 
 import com.br.devs.shared_restaurant.core.dto.input.AuthDTO;
-import com.br.devs.shared_restaurant.service.AuthService;
+import com.br.devs.shared_restaurant.old_service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

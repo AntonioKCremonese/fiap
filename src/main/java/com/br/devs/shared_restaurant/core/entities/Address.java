@@ -2,10 +2,7 @@ package com.br.devs.shared_restaurant.core.entities;
 
 import com.br.devs.shared_restaurant.core.dto.input.AddressInputDTO;
 import com.br.devs.shared_restaurant.core.dto.output.AddressOutputDTO;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
@@ -13,6 +10,8 @@ import java.time.OffsetDateTime;
 @Setter
 @Builder
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     private String id;

@@ -1,8 +1,8 @@
-package com.br.devs.shared_restaurant.controller;
+package com.br.devs.shared_restaurant.old_controller;
 
 import com.br.devs.shared_restaurant.core.dto.input.RestaurantInputDTO;
 import com.br.devs.shared_restaurant.core.dto.output.RestaurantOutputDTO;
-import com.br.devs.shared_restaurant.service.RestaurantService;
+import com.br.devs.shared_restaurant.old_service.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

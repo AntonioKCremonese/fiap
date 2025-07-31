@@ -43,7 +43,7 @@ public class Restaurant {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
+    private UserEntity owner;
 
     @Override
     public boolean equals(Object o) {

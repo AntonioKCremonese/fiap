@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.exception;
+package com.br.devs.shared_restaurant.old_exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
