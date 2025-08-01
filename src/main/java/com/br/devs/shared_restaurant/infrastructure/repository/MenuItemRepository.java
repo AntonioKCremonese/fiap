@@ -1,10 +1,8 @@
 package com.br.devs.shared_restaurant.infrastructure.repository;
 
-import com.br.devs.shared_restaurant.infrastructure.model.MenuItem;
+import com.br.devs.shared_restaurant.infrastructure.model.MenuItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface MenuItemRepository extends JpaRepository<MenuItem, String> {
+public interface MenuItemRepository extends JpaRepository<MenuItemEntity, String> {
 
 }

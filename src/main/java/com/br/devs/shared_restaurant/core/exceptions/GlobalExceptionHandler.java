@@ -1,6 +1,5 @@
-package com.br.devs.shared_restaurant.old_exception;
+package com.br.devs.shared_restaurant.core.exceptions;
 
-import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

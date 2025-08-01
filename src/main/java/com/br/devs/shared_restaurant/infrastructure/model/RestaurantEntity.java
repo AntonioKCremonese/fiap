@@ -19,7 +19,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "restaurant")
-public class Restaurant {
+public class RestaurantEntity {
 
     @Id
     @GeneratedValue
@@ -32,11 +32,11 @@ public class Restaurant {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    private AddressEntity address;
 
     @ManyToOne
     @JoinColumn(name = "cuisine_type_id")
-    private CuisineType cuisineType;
+    private CuisineTypeEntity cuisineType;
 
     @Column(name = "opening_hours")
     private String openingHours;
@@ -48,7 +48,7 @@ public class Restaurant {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Restaurant that = (Restaurant) o;
+        RestaurantEntity that = (RestaurantEntity) o;
         return Objects.equals(id, that.id);
     }
 

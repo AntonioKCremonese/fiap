@@ -1,9 +1,11 @@
-package com.br.devs.shared_restaurant.infrastructure.repository;
+package com.br.devs.shared_restaurant.infrastructure.gateways;
 
 import com.br.devs.shared_restaurant.application.mapper.GenericMapper;
 import com.br.devs.shared_restaurant.core.entities.User;
-import com.br.devs.shared_restaurant.core.interfaces.IUserGateway;
+import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
+import com.br.devs.shared_restaurant.core.gateways.IUserGateway;
 import com.br.devs.shared_restaurant.infrastructure.model.UserEntity;
+import com.br.devs.shared_restaurant.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -30,8 +32,8 @@ public class UserGatewayImpl implements IUserGateway {
     }
 
     @Override
-    public Optional<User> findUserById(String id) {
-        return this.userRepository.findById(id).map(userEntity -> mapper.fromEntity(userEntity, User.class));
+    public User findUserById(String id) {
+        return mapper.fromEntity(this.userRepository.findById(id).orElseThrow(UserValidationException::userNotFoundException), User.class);
     }
 
     @Override

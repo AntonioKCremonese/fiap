@@ -19,7 +19,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "address")
-public class Address {
+public class AddressEntity {
 
     @Id
     @GeneratedValue
@@ -61,7 +61,7 @@ public class Address {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
+        AddressEntity address = (AddressEntity) o;
         return Objects.equals(id, address.id);
     }
 

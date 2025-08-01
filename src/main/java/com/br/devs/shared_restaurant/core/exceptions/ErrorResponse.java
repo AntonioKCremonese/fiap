@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.old_exception;
+package com.br.devs.shared_restaurant.core.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

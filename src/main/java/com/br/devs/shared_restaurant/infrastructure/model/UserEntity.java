@@ -55,9 +55,9 @@ public class UserEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    private AddressEntity address;
 
-    public UserEntity(String name, String mail, String login, String password, UserTypeEnum userType, Address address) {
+    public UserEntity(String name, String mail, String login, String password, UserTypeEnum userType, AddressEntity address) {
         this.name = name;
         this.mail = mail;
         this.login = login;
