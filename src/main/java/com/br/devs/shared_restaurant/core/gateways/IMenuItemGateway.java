@@ -8,4 +8,5 @@ public interface IMenuItemGateway {
     MenuItem save(MenuItem menuItem);
     MenuItem findMenuItemById(String id);
     void deleteMenuItemById(String id);
+    void validateMenuItemAlreadyExistsOnRestaurant(String name, String restaurantId);
 }

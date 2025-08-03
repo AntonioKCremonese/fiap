@@ -26,6 +26,7 @@ public class MenuItemUseCaseImpl implements IMenuItemUseCase {
     public MenuItemOutputDTO create(MenuItemInputDTO menuItemInputDTO) {
         MenuItem menuItem = MenuItemPresenter.toEntity(menuItemInputDTO);
         menuItem.setRestaurant(restaurantGateway.findRestaurantById(menuItemInputDTO.getRestaurant().getId()));
+        menuItemGateway.validateMenuItemAlreadyExistsOnRestaurant(menuItem.getName(), menuItem.getRestaurant().getId());
         return MenuItemPresenter.toDTO(menuItemGateway.save(menuItem));
     }
 
