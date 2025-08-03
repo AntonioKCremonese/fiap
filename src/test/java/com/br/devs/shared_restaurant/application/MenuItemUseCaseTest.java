@@ -60,7 +60,9 @@ public class MenuItemUseCaseTest {
 
         Mockito.when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
         Mockito.when(menuItemGateway.save(Mockito.any())).thenReturn(menuItem);
+
         var menuCreated = menuItemUseCase.create(input);
+
         Assert.assertNotNull(menuCreated);
     }
 
@@ -93,6 +95,7 @@ public class MenuItemUseCaseTest {
         Mockito.when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
         Mockito.doThrow(MenuItemValidationException.menuItemAlreadyExistsForRestaurant())
                 .when(menuItemGateway).validateMenuItemAlreadyExistsOnRestaurant(anyString(), anyString());
+
         menuItemUseCase.create(input);
     }
 
@@ -119,7 +122,9 @@ public class MenuItemUseCaseTest {
                 .build();
 
         Mockito.when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
+
         var menuFound = menuItemUseCase.getById("12345");
+
         Assert.assertNotNull(menuFound);
         Assert.assertEquals("12345", menuFound.getId());
     }
