@@ -13,7 +13,7 @@ public class UserPresenter {
                 .name(user.getName())
                 .mail(user.getMail())
                 .userType(user.getUserType())
-                .address(AddressPresenter.toDTO(user.getAddress()))
+                .address(user.getAddress() != null ? AddressPresenter.toDTO(user.getAddress()) : null)
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class UserPresenter {
                 .mail(input.getMail())
                 .password(input.getPassword())
                 .userType(input.getUserType())
-                .address(AddressPresenter.toEntity(input.getAddress()))
+                .address(input.getAddress() != null ? AddressPresenter.toEntity(input.getAddress()) : null)
                 .build();
     }
 }

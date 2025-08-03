@@ -34,4 +34,9 @@ public class MenuItemGatewayImpl implements IMenuItemGateway {
     public void deleteMenuItemById(String id) {
         menuItemRepository.deleteById(id);
     }
+
+    @Override
+    public void validateMenuItemAlreadyExistsOnRestaurant(String name, String restaurantId) {
+        menuItemRepository.findByNameAndRestaurant_Id(name, restaurantId).ifPresent(menuItem -> {throw MenuItemValidationException.menuItemAlreadyExistsForRestaurant();});
+    }
 }
