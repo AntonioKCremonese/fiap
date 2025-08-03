@@ -1,15 +1,13 @@
 package com.br.devs.shared_restaurant.core.entities;
 
 import com.br.devs.shared_restaurant.core.dto.input.MenuItemInputDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuItem {
