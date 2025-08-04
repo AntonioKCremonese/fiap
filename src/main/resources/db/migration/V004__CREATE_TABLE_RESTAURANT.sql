@@ -8,6 +8,6 @@ CREATE TABLE restaurant (
 
     CONSTRAINT fk_restaurant_address FOREIGN KEY (address_id) REFERENCES address(id),
     CONSTRAINT fk_restaurant_cuisine_type FOREIGN KEY (cuisine_type_id) REFERENCES cuisine_type(id),
-    CONSTRAINT fk_restaurant_owner FOREIGN KEY (owner_id) REFERENCES user(id),
+    CONSTRAINT fk_restaurant_owner FOREIGN KEY (owner_id) REFERENCES `user`(id),
     CONSTRAINT uk_restaurant_name UNIQUE (name)
 );
