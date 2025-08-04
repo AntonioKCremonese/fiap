@@ -1,27 +1,35 @@
-package com.br.devs.shared_restaurant.application;
+package com.br.devs.shared_restaurant.application.usecases.menuitem;
 
 import com.br.devs.shared_restaurant.application.usecases.MenuItemUseCaseImpl;
 import com.br.devs.shared_restaurant.core.dto.input.MenuItemInputDTO;
 import com.br.devs.shared_restaurant.core.dto.input.RestaurantIdInputDTO;
-import com.br.devs.shared_restaurant.core.entities.*;
+import com.br.devs.shared_restaurant.core.entities.Address;
+import com.br.devs.shared_restaurant.core.entities.CuisineType;
+import com.br.devs.shared_restaurant.core.entities.MenuItem;
+import com.br.devs.shared_restaurant.core.entities.Restaurant;
+import com.br.devs.shared_restaurant.core.entities.User;
 import com.br.devs.shared_restaurant.core.exceptions.MenuItemValidationException;
 import com.br.devs.shared_restaurant.core.gateways.IMenuItemGateway;
 import com.br.devs.shared_restaurant.core.gateways.IRestaurantGateway;
 import com.br.devs.shared_restaurant.core.presenters.MenuItemPresenter;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class MenuItemUseCaseTest {
+@ExtendWith(MockitoExtension.class)
+class MenuItemUseCaseTest {
 
     @InjectMocks
     private MenuItemUseCaseImpl menuItemUseCase;
@@ -33,7 +41,7 @@ public class MenuItemUseCaseTest {
     private IRestaurantGateway restaurantGateway;
 
     @Test
-    public void testCreateMenuItem() {
+    void shouldCreateMenuItemSuccessfully() {
         var input = new MenuItemInputDTO();
         input.setName("Pizza Margherita");
         input.setDescription("Classic Italian pizza with tomatoes, mozzarella, and basil");
@@ -43,7 +51,7 @@ public class MenuItemUseCaseTest {
         restaurantIdInputDTO.setId("12345");
         input.setRestaurant(restaurantIdInputDTO);
 
-        var address = Address.builder().id("123456").city("sbo").build();
+        var address = Address.builder().id("123456").city("SBO").build();
         var cuisineType = CuisineType.builder().id("123456").name("Italian").build();
         var owner = User.builder().id("12345").name("Mario Rossi").mail("mario@rossi.com").build();
 
@@ -58,16 +66,16 @@ public class MenuItemUseCaseTest {
         var menuItem = MenuItemPresenter.toEntity(input);
         menuItem.setRestaurant(restaurant);
 
-        Mockito.when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
-        Mockito.when(menuItemGateway.save(Mockito.any())).thenReturn(menuItem);
+        when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
+        when(menuItemGateway.save(any())).thenReturn(menuItem);
 
         var menuCreated = menuItemUseCase.create(input);
 
-        Assert.assertNotNull(menuCreated);
+        assertThat(menuCreated).isNotNull();
     }
 
-    @Test(expected = MenuItemValidationException.class)
-    public void testCreateMenuItemWithNameAlreadyExistsOnRestaurant() {
+    @Test
+    void shouldThrowExceptionWhenMenuItemNameAlreadyExistsOnRestaurant() {
         var input = new MenuItemInputDTO();
         input.setName("Pizza Margherita");
         input.setDescription("Classic Italian pizza with tomatoes, mozzarella, and basil");
@@ -77,7 +85,7 @@ public class MenuItemUseCaseTest {
         restaurantIdInputDTO.setId("12345");
         input.setRestaurant(restaurantIdInputDTO);
 
-        var address = Address.builder().id("123456").city("sbo").build();
+        var address = Address.builder().id("123456").city("SBO").build();
         var cuisineType = CuisineType.builder().id("123456").name("Italian").build();
         var owner = User.builder().id("12345").name("Mario Rossi").mail("mario@rossi.com").build();
 
@@ -89,19 +97,17 @@ public class MenuItemUseCaseTest {
                 .owner(owner)
                 .build();
 
-        var menuItem = MenuItemPresenter.toEntity(input);
-        menuItem.setRestaurant(restaurant);
-
-        Mockito.when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
-        Mockito.doThrow(MenuItemValidationException.menuItemAlreadyExistsForRestaurant())
+        when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
+        doThrow(MenuItemValidationException.menuItemAlreadyExistsForRestaurant())
                 .when(menuItemGateway).validateMenuItemAlreadyExistsOnRestaurant(anyString(), anyString());
 
-        menuItemUseCase.create(input);
+        assertThatThrownBy(() -> menuItemUseCase.create(input))
+                .isInstanceOf(MenuItemValidationException.class);
     }
 
     @Test
-    public void testGetMenuItemById() {
-        var address = Address.builder().id("123456").city("sbo").build();
+    void shouldGetMenuItemByIdSuccessfully() {
+        var address = Address.builder().id("123456").city("SBO").build();
         var cuisineType = CuisineType.builder().id("123456").name("Italian").build();
         var owner = User.builder().id("12345").name("Mario Rossi").mail("mario@rossi.com").build();
 
@@ -121,16 +127,16 @@ public class MenuItemUseCaseTest {
                 .restaurant(restaurant)
                 .build();
 
-        Mockito.when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
+        when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
 
         var menuFound = menuItemUseCase.getById("12345");
 
-        Assert.assertNotNull(menuFound);
-        Assert.assertEquals("12345", menuFound.getId());
+        assertThat(menuFound).isNotNull();
+        assertThat(menuFound.getId()).isEqualTo("12345");
     }
 
     @Test
-    public void testUpdateMenuItem() {
+    void shouldUpdateMenuItemSuccessfully() {
         var input = new MenuItemInputDTO();
         input.setName("Pizza Margherita");
         input.setDescription("Classic Italian pizza with tomatoes, mozzarella, and basil");
@@ -140,9 +146,10 @@ public class MenuItemUseCaseTest {
         restaurantIdInputDTO.setId("12345");
         input.setRestaurant(restaurantIdInputDTO);
 
-        var address = Address.builder().id("123456").city("sbo").build();
+        var address = Address.builder().id("123456").city("SBO").build();
         var cuisineType = CuisineType.builder().id("123456").name("Italian").build();
         var owner = User.builder().id("12345").name("Mario Rossi").mail("mario.rossi@com").build();
+
         var restaurant = Restaurant.builder()
                 .id("12345")
                 .name("Pizzeria Bella Napoli")
@@ -150,26 +157,28 @@ public class MenuItemUseCaseTest {
                 .cuisineType(cuisineType)
                 .owner(owner)
                 .build();
+
         var menuItem = MenuItemPresenter.toEntity(input);
         menuItem.setId("12345");
         menuItem.setRestaurant(restaurant);
 
-        Mockito.when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
-        Mockito.when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
-        Mockito.when(menuItemGateway.save(Mockito.any())).thenReturn(menuItem);
+        when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
+        when(restaurantGateway.findRestaurantById(anyString())).thenReturn(restaurant);
+        when(menuItemGateway.save(any())).thenReturn(menuItem);
 
         var menuUpdated = menuItemUseCase.update("12345", input);
 
-        Assert.assertNotNull(menuUpdated);
-        Assert.assertEquals("12345", menuUpdated.getId());
-        Assert.assertEquals("Pizza Margherita", menuUpdated.getName());
+        assertThat(menuUpdated).isNotNull();
+        assertThat(menuUpdated.getId()).isEqualTo("12345");
+        assertThat(menuUpdated.getName()).isEqualTo("Pizza Margherita");
     }
 
     @Test
-    public void testDeleteMenuItem() {
-        var address = Address.builder().id("123456").city("sbo").build();
+    void shouldDeleteMenuItemSuccessfully() {
+        var address = Address.builder().id("123456").city("SBO").build();
         var cuisineType = CuisineType.builder().id("123456").name("Italian").build();
         var owner = User.builder().id("12345").name("Mario Rossi").mail("mario.rossi@com").build();
+
         var restaurant = Restaurant.builder()
                 .id("12345")
                 .name("Pizzeria Bella Napoli")
@@ -177,6 +186,7 @@ public class MenuItemUseCaseTest {
                 .cuisineType(cuisineType)
                 .owner(owner)
                 .build();
+
         var menuItem = MenuItem.builder()
                 .id("12345")
                 .name("Pizza Margherita")
@@ -185,11 +195,10 @@ public class MenuItemUseCaseTest {
                 .restaurant(restaurant)
                 .build();
 
-        Mockito.when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
-        Mockito.doNothing().when(menuItemGateway).deleteMenuItemById(anyString());
+        when(menuItemGateway.findMenuItemById(anyString())).thenReturn(menuItem);
 
         menuItemUseCase.delete("12345");
 
-        Mockito.verify(menuItemGateway, Mockito.times(1)).deleteMenuItemById("12345");
+        verify(menuItemGateway).deleteMenuItemById("12345");
     }
 }

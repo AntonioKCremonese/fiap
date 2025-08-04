@@ -1,4 +1,4 @@
-package com.br.devs.shared_restaurant.application;
+package com.br.devs.shared_restaurant.application.usecases.user;
 
 import com.br.devs.shared_restaurant.application.usecases.UserUseCaseImpl;
 import com.br.devs.shared_restaurant.core.dto.input.AddressInputDTO;
@@ -10,20 +10,23 @@ import com.br.devs.shared_restaurant.core.entities.enums.UserTypeEnum;
 import com.br.devs.shared_restaurant.core.exceptions.UserValidationException;
 import com.br.devs.shared_restaurant.core.gateways.IUserGateway;
 import com.br.devs.shared_restaurant.core.presenters.UserPresenter;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UserUseCaseTest {
+@ExtendWith(MockitoExtension.class)
+class UserUseCaseTest {
 
     @InjectMocks
     private UserUseCaseImpl userUseCase;
@@ -32,21 +35,22 @@ public class UserUseCaseTest {
     private IUserGateway userGateway;
 
     @Test
-    public void testGetUserByIdSuccessFully() {
+    void shouldGetUserByIdSuccessfully() {
         var user = User.builder()
                 .id("12345")
                 .name("John Doe")
-                .mail("mail.com").build();
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
+                .mail("mail.com")
+                .build();
+        when(userGateway.findUserById(any())).thenReturn(user);
 
-        var userFounded = userUseCase.getUserById("12345");
+        var userFound = userUseCase.getUserById("12345");
 
-        Assert.assertNotNull(userFounded);
-        Assert.assertEquals("12345", userFounded.getId());
+        assertThat(userFound).isNotNull();
+        assertThat(userFound.getId()).isEqualTo("12345");
     }
 
     @Test
-    public void testCreateUserSuccessFully() {
+    void shouldCreateUserSuccessfully() {
         var input = new UserCreateDTO();
         input.setName("John Doe");
         input.setMail("mail@joedoe.com");
@@ -58,14 +62,15 @@ public class UserUseCaseTest {
         var user = UserPresenter.toEntity(input);
         user.setId("12345");
 
-        Mockito.when(userGateway.save(any())).thenReturn(user);
+        when(userGateway.save(any())).thenReturn(user);
+
         var userCreated = userUseCase.createUser(input);
 
-        Assert.assertNotNull(userCreated);
+        assertThat(userCreated).isNotNull();
     }
 
     @Test
-    public void testCreateUserWithAddressSuccessFully() {
+    void shouldCreateUserWithAddressSuccessfully() {
         var input = new UserCreateDTO();
         input.setName("John Doe");
         input.setMail("mail@joedoe.com");
@@ -77,64 +82,70 @@ public class UserUseCaseTest {
         var address = new AddressInputDTO();
         address.setNumber(1);
         address.setCity("SBO");
-        address.setCountry("BRAZEL");
+        address.setCountry("BRAZIL");
         input.setAddress(address);
 
         var user = UserPresenter.toEntity(input);
         user.setId("12345");
 
-        Mockito.when(userGateway.save(any())).thenReturn(user);
+        when(userGateway.save(any())).thenReturn(user);
+
         var userCreated = userUseCase.createUser(input);
 
-        Assert.assertNotNull(userCreated);
-        Assert.assertNotNull(userCreated.getAddress());
-    }
-
-    @Test(expected = UserValidationException.class)
-    public void testCreateUserWithInvalidConfirmationPassword() {
-        var input = new UserCreateDTO();
-        input.setName("John Doe");
-        input.setMail("mail@joedoe.com");
-        input.setUserType(UserTypeEnum.CLIENT);
-        input.setLogin("joe_doe");
-        input.setPassword("Abcd1234");
-        input.setPasswordConfirmation("Abcd123");
-
-        userUseCase.createUser(input);
-    }
-
-    @Test(expected = UserValidationException.class)
-    public void testCreateUserWithAlreadyLoginCreated() {
-        var input = new UserCreateDTO();
-        input.setName("John Doe");
-        input.setMail("mail@joedoe.com");
-        input.setUserType(UserTypeEnum.CLIENT);
-        input.setLogin("joe_doe");
-        input.setPassword("Abcd1234");
-        input.setPasswordConfirmation("Abcd1234");
-
-        Mockito.when(userGateway.findUserByLogin(input.getLogin())).thenReturn(Optional.of(UserPresenter.toEntity(input)));
-
-        userUseCase.createUser(input);
-    }
-
-    @Test(expected = UserValidationException.class)
-    public void testCreateUserWithAlreadyMailCreated() {
-        var input = new UserCreateDTO();
-        input.setName("John Doe");
-        input.setMail("mail@joedoe.com");
-        input.setUserType(UserTypeEnum.CLIENT);
-        input.setLogin("joe_doe");
-        input.setPassword("Abcd1234");
-        input.setPasswordConfirmation("Abcd1234");
-
-        Mockito.when(userGateway.findUserByMail(input.getMail())).thenReturn(Optional.of(UserPresenter.toEntity(input)));
-
-        userUseCase.createUser(input);
+        assertThat(userCreated).isNotNull();
+        assertThat(userCreated.getAddress()).isNotNull();
     }
 
     @Test
-    public void testUpdateUserSuccessFully() {
+    void shouldThrowExceptionWhenPasswordConfirmationIsInvalid() {
+        var input = new UserCreateDTO();
+        input.setName("John Doe");
+        input.setMail("mail@joedoe.com");
+        input.setUserType(UserTypeEnum.CLIENT);
+        input.setLogin("joe_doe");
+        input.setPassword("Abcd1234");
+        input.setPasswordConfirmation("Abcd123"); // Different password
+
+        assertThatThrownBy(() -> userUseCase.createUser(input))
+                .isInstanceOf(UserValidationException.class);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenLoginAlreadyExists() {
+        var input = new UserCreateDTO();
+        input.setName("John Doe");
+        input.setMail("mail@joedoe.com");
+        input.setUserType(UserTypeEnum.CLIENT);
+        input.setLogin("joe_doe");
+        input.setPassword("Abcd1234");
+        input.setPasswordConfirmation("Abcd1234");
+
+        when(userGateway.findUserByLogin(input.getLogin()))
+                .thenReturn(Optional.of(UserPresenter.toEntity(input)));
+
+        assertThatThrownBy(() -> userUseCase.createUser(input))
+                .isInstanceOf(UserValidationException.class);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenMailAlreadyExists() {
+        var input = new UserCreateDTO();
+        input.setName("John Doe");
+        input.setMail("mail@joedoe.com");
+        input.setUserType(UserTypeEnum.CLIENT);
+        input.setLogin("joe_doe");
+        input.setPassword("Abcd1234");
+        input.setPasswordConfirmation("Abcd1234");
+
+        when(userGateway.findUserByMail(input.getMail()))
+                .thenReturn(Optional.of(UserPresenter.toEntity(input)));
+
+        assertThatThrownBy(() -> userUseCase.createUser(input))
+                .isInstanceOf(UserValidationException.class);
+    }
+
+    @Test
+    void shouldUpdateUserSuccessfully() {
         var input = new UserUpdateDTO();
         input.setName("John Updated");
         input.setMail("mail_Updated@joedoe.com");
@@ -149,17 +160,18 @@ public class UserUseCaseTest {
                 .login("joe_doe")
                 .build();
 
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        Mockito.when(userGateway.save(any())).thenReturn(user);
+        when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.save(any())).thenReturn(user);
+
         var updatedUser = userUseCase.updateUser("12345", input);
 
-        Assert.assertNotNull(updatedUser);
-        Assert.assertEquals("John Updated" , updatedUser.getName());
-        Assert.assertEquals("mail_Updated@joedoe.com" , updatedUser.getMail());
+        assertThat(updatedUser).isNotNull();
+        assertThat(updatedUser.getName()).isEqualTo("John Updated");
+        assertThat(updatedUser.getMail()).isEqualTo("mail_Updated@joedoe.com");
     }
 
-    @Test(expected = UserValidationException.class)
-    public void testUpdateUserWithAlreadyLogin() {
+    @Test
+    void shouldThrowExceptionWhenUpdatingUserWithExistingLogin() {
         var input = new UserUpdateDTO();
         input.setName("John Updated");
         input.setMail("mail_Updated@joedoe.com");
@@ -174,13 +186,15 @@ public class UserUseCaseTest {
                 .login("joe_doe")
                 .build();
 
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        Mockito.when(userGateway.findUserByLogin(any())).thenReturn(Optional.of(user));
-        userUseCase.updateUser("12345", input);
+        when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.findUserByLogin(any())).thenReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> userUseCase.updateUser("12345", input))
+                .isInstanceOf(UserValidationException.class);
     }
 
-    @Test(expected = UserValidationException.class)
-    public void testUpdateUserWithAlreadyMail() {
+    @Test
+    void shouldThrowExceptionWhenUpdatingUserWithExistingMail() {
         var input = new UserUpdateDTO();
         input.setName("John Updated");
         input.setMail("mail_Updated@joedoe.com");
@@ -195,25 +209,30 @@ public class UserUseCaseTest {
                 .login("joe_doe")
                 .build();
 
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        Mockito.when(userGateway.findUserByMail(any())).thenReturn(Optional.of(user));
-        userUseCase.updateUser("12345", input);
+        when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.findUserByMail(any())).thenReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> userUseCase.updateUser("12345", input))
+                .isInstanceOf(UserValidationException.class);
     }
 
     @Test
-    public void testDeleteUserSuccessFully() {
+    void shouldDeleteUserSuccessfully() {
         var user = User.builder()
                 .id("12345")
                 .name("John Doe")
-                .mail("mail@joedoe.com").build();
+                .mail("mail@joedoe.com")
+                .build();
 
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.findUserById(any())).thenReturn(user);
+
         userUseCase.deleteUser("12345");
-        Mockito.verify(userGateway, Mockito.times(1)).deleteUserById(user.getId());
+
+        verify(userGateway, times(1)).deleteUserById(user.getId());
     }
 
     @Test
-    public void testUpdateUserPasswordSuccessFully() {
+    void shouldUpdateUserPasswordSuccessfully() {
         var input = new PasswordUpdateDTO("Newpass1234", "Newpass1234", "Abcd1234");
         var user = User.builder()
                 .id("12345")
@@ -221,33 +240,41 @@ public class UserUseCaseTest {
                 .mail("mail@joedoe.com")
                 .password("Abcd1234")
                 .build();
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        Mockito.when(userGateway.save(any())).thenReturn(user);
+
+        when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.save(any())).thenReturn(user);
+
         userUseCase.updatePassword("12345", input);
-        Assert.assertEquals("Newpass1234", user.getPassword());
+
+        assertThat(user.getPassword()).isEqualTo("Newpass1234");
     }
 
-    @Test(expected = UserValidationException.class)
-    public void testUpdateUserPasswordWithInvalidPasswordConfirmation() {
+    @Test
+    void shouldThrowExceptionWhenPasswordConfirmationDoesNotMatch() {
         var input = new PasswordUpdateDTO("Newpass1234", "Newpass165", "Abcd1234");
-        userUseCase.updatePassword("12345", input);
+
+        assertThatThrownBy(() -> userUseCase.updatePassword("12345", input))
+                .isInstanceOf(UserValidationException.class);
     }
 
-    @Test(expected = UserValidationException.class)
-    public void testUpdateUserPasswordWithInvalidCurrentPassword() {
+    @Test
+    void shouldThrowExceptionWhenCurrentPasswordIsInvalid() {
         var input = new PasswordUpdateDTO("Newpass1234", "Newpass1234", "Abcd1234");
         var user = User.builder()
                 .id("12345")
                 .name("John Doe")
                 .mail("mail@joedoe.com")
-                .password("Abcd1234678")
+                .password("Abcd1234678") // Different current password
                 .build();
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        userUseCase.updatePassword("12345", input);
+
+        when(userGateway.findUserById(any())).thenReturn(user);
+
+        assertThatThrownBy(() -> userUseCase.updatePassword("12345", input))
+                .isInstanceOf(UserValidationException.class);
     }
 
     @Test
-    public void testUpdateUserAddressSuccessFully() {
+    void shouldUpdateUserAddressSuccessfully() {
         var input = new AddressInputDTO();
         input.setStreet("Main St");
         input.setNumber(123);
@@ -262,14 +289,15 @@ public class UserUseCaseTest {
         var user = User.builder()
                 .id("12345")
                 .name("John Doe")
-                .mail("mail.com").build();
+                .mail("mail.com")
+                .build();
 
-        Mockito.when(userGateway.findUserById(any())).thenReturn(user);
-        Mockito.when(userGateway.save(any())).thenReturn(user);
+        when(userGateway.findUserById(any())).thenReturn(user);
+        when(userGateway.save(any())).thenReturn(user);
 
         var updatedUserAddress = userUseCase.updateUserAddress("12345", input);
 
-        Assert.assertNotNull(updatedUserAddress);
-        Assert.assertNotNull(updatedUserAddress.getAddress());
+        assertThat(updatedUserAddress).isNotNull();
+        assertThat(updatedUserAddress.getAddress()).isNotNull();
     }
 }
