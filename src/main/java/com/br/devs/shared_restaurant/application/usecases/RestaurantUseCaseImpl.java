@@ -61,9 +61,7 @@ public class RestaurantUseCaseImpl implements IRestaurantUseCase {
         }
     }
 
-    @Override
-    @Transactional
-    public Restaurant findById(String id) {
+    private Restaurant findById(String id) {
         return restaurantGateway.findRestaurantById(id);
     }
 }
