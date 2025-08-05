@@ -96,12 +96,6 @@ MYSQL_PASSWORD=dev
 SPRING_DATASOURCE_USERNAME=dev  
 SPRING_DATASOURCE_PASSWORD=dev
 
-### Gerar o Executável
-
-Execute o comando abaixo para compilar o projeto e gerar o arquivo .jar:
-
-`mvn clean package -DskipTests`
-
 ### Executar a Aplicação
 
 Para iniciar a aplicação e os serviços necessários, utilize o comando:
