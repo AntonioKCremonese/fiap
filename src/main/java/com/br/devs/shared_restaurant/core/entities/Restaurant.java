@@ -2,6 +2,7 @@ package com.br.devs.shared_restaurant.core.entities;
 
 
 import com.br.devs.shared_restaurant.core.dto.input.RestaurantInputDTO;
+import com.br.devs.shared_restaurant.core.exceptions.RestaurantValidationException;
 import lombok.*;
 
 @Getter
@@ -21,5 +22,11 @@ public class Restaurant {
     public static void update(Restaurant existingRestaurant, RestaurantInputDTO restaurantInputDTO) {
         existingRestaurant.setName(restaurantInputDTO.getName());
         existingRestaurant.setOpeningHours(restaurantInputDTO.getOpeningHours());
+    }
+
+    public static void validateNameAlreadyExists(String name, String nameToCreate) {
+        if (name.equals(nameToCreate)) {
+            throw RestaurantValidationException.restaurantAlreadyExistsException("Já existe um restaurante cadastrado com este nome.");
+        }
     }
 }

@@ -30,6 +30,7 @@ public class CuisineTypeUseCaseImpl implements ICuisineTypeUseCase {
     @Override
     @Transactional
     public CuisineTypeOutputDTO create(CuisineTypeInputDTO cuisineTypeInputDTO) {
+        cuisineTypeGateway.findCuisineTypeByName(cuisineTypeInputDTO.getName()).ifPresent(cuisineType -> CuisineType.validateNameAlreadyExists(cuisineType.getName(), cuisineTypeInputDTO.getName()));
         CuisineType cuisineType = CuisinePresenter.toEntity(cuisineTypeInputDTO);
         return CuisinePresenter.toDTO(cuisineTypeGateway.save(cuisineType));
     }
@@ -52,9 +53,7 @@ public class CuisineTypeUseCaseImpl implements ICuisineTypeUseCase {
         }
     }
 
-    @Override
-    @Transactional
-    public CuisineType findById(String id) {
+    private CuisineType findById(String id) {
         return cuisineTypeGateway.findCuisineTypeById(id);
     }
 }

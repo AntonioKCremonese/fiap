@@ -25,4 +25,8 @@ public final class CuisineTypeValidationException extends RuntimeException {
     public static CuisineTypeValidationException cuisineTypeInUseException() {
         return new CuisineTypeValidationException("O tipo de cozinha está em uso e não pode ser removido.", HttpStatus.BAD_REQUEST);
     }
+
+    public static CuisineTypeValidationException cuisineTypeAlreadyExistsException(String message) {
+        return new CuisineTypeValidationException(message, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -28,6 +28,7 @@ public class RestaurantUseCaseImpl implements IRestaurantUseCase {
     @Override
     @Transactional
     public RestaurantOutputDTO create(RestaurantInputDTO input) {
+        restaurantGateway.findRestaurantByName(input.getName()).ifPresent(restaurant -> Restaurant.validateNameAlreadyExists(restaurant.getName(), input.getName()));
         Restaurant restaurant = RestaurantPresenter.toEntity(input);
         restaurant.setCuisineType(cuisineTypeGateway.findCuisineTypeById(input.getCuisineType().getId()));
         restaurant.setOwner(userGateway.findUserById(input.getOwner().getId()));
@@ -60,9 +61,7 @@ public class RestaurantUseCaseImpl implements IRestaurantUseCase {
         }
     }
 
-    @Override
-    @Transactional
-    public Restaurant findById(String id) {
+    private Restaurant findById(String id) {
         return restaurantGateway.findRestaurantById(id);
     }
 }

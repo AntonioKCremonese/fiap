@@ -11,6 +11,8 @@ import com.br.devs.shared_restaurant.core.exceptions.RestaurantValidationExcepti
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class RestaurantGatewayImpl implements IRestaurantGateway {
     private final RestaurantRepository restaurantRepository;
@@ -42,6 +44,12 @@ public class RestaurantGatewayImpl implements IRestaurantGateway {
     @Override
     public Restaurant findRestaurantById(String id) {
         return mapper.fromEntity(restaurantRepository.findById(id).orElseThrow(RestaurantValidationException::restaurantNotFoundException), Restaurant.class);
+    }
+
+    @Override
+    public Optional<Restaurant> findRestaurantByName(String name) {
+        return restaurantRepository.findByName(name)
+                .map(entity -> mapper.fromEntity(entity, Restaurant.class));
     }
 
     @Override

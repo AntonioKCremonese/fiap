@@ -52,9 +52,7 @@ public class MenuItemUseCaseImpl implements IMenuItemUseCase {
         menuItemGateway.deleteMenuItemById(findById(id).getId());
     }
 
-    @Override
-    @Transactional
-    public MenuItem findById(String id) {
+    private MenuItem findById(String id) {
         return this.menuItemGateway.findMenuItemById(id);
     }
 }
