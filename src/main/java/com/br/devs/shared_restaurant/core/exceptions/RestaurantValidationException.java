@@ -25,4 +25,8 @@ public final class RestaurantValidationException extends RuntimeException {
     public static RestaurantValidationException restaurantInUseException() {
         return new RestaurantValidationException("O restaurante está em uso e não pode ser removido.", HttpStatus.BAD_REQUEST);
     }
+
+    public static RestaurantValidationException restaurantAlreadyExistsException(String message) {
+        return new RestaurantValidationException(message, HttpStatus.BAD_REQUEST);
+    }
 }

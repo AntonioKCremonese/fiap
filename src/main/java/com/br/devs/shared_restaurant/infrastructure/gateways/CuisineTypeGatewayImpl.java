@@ -8,6 +8,8 @@ import com.br.devs.shared_restaurant.infrastructure.repository.CuisineTypeReposi
 import com.br.devs.shared_restaurant.core.exceptions.CuisineTypeValidationException;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class CuisineTypeGatewayImpl implements ICuisineTypeGateway {
 
@@ -22,6 +24,12 @@ public class CuisineTypeGatewayImpl implements ICuisineTypeGateway {
     @Override
     public CuisineType findCuisineTypeById(String id) {
         return mapper.fromEntity(cuisineTypeRepository.findById(id).orElseThrow(CuisineTypeValidationException::cuisineTypeNotFoundException), CuisineType.class);
+    }
+
+    @Override
+    public Optional<CuisineType> findCuisineTypeByName(String name) {
+        return cuisineTypeRepository.findByName(name)
+                .map(entity -> mapper.fromEntity(entity, CuisineType.class));
     }
 
     @Override

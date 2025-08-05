@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 FROM openjdk:21
 WORKDIR /app
 
-COPY --from=build /app/target/shared-restaurant-0.0.1-SNAPSHOT.jar shared-restaurant.jar
+COPY --from=build /app/target/shared-restaurant-*.jar shared-restaurant.jar
 
 COPY ./docker/wait-for-it.sh /wait-for-it.sh
 

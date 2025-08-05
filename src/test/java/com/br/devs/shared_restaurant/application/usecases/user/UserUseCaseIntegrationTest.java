@@ -108,7 +108,6 @@ class UserUseCaseIntegrationTest extends BaseIntegrationTest {
 
         userUseCase.deleteUser(createdUser.getId());
 
-        // Then - Should throw exception when trying to find deleted user
         assertThatThrownBy(() -> userUseCase.getUserById(createdUser.getId()))
                 .isInstanceOf(RuntimeException.class);
     }
@@ -129,7 +128,6 @@ class UserUseCaseIntegrationTest extends BaseIntegrationTest {
                 .withCurrentPassword("OldPass123")
                 .build();
 
-        // When & Then - Should not throw exception
         userUseCase.updatePassword(createdUser.getId(), passwordDTO);
     }
 
@@ -208,12 +206,11 @@ class UserUseCaseIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void shouldCreateUserAddressWhenUpdatingUserWithoutAddress() {
-        // Given - User without address
         UserCreateDTO userCreateDTO = TestDataBuilder.defaultUser()
                 .withName("Monica Santos")
                 .withMail("monica@example.com")
                 .buildCreateDTO();
-        userCreateDTO.setAddress(null); // Remove address
+        userCreateDTO.setAddress(null);
 
         UserOutputDTO createdUser = userUseCase.createUser(userCreateDTO);
 

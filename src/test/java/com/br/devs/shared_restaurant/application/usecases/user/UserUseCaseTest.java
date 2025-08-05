@@ -104,7 +104,7 @@ class UserUseCaseTest {
         input.setUserType(UserTypeEnum.CLIENT);
         input.setLogin("joe_doe");
         input.setPassword("Abcd1234");
-        input.setPasswordConfirmation("Abcd123"); // Different password
+        input.setPasswordConfirmation("Abcd123");
 
         assertThatThrownBy(() -> userUseCase.createUser(input))
                 .isInstanceOf(UserValidationException.class);
@@ -264,7 +264,7 @@ class UserUseCaseTest {
                 .id("12345")
                 .name("John Doe")
                 .mail("mail@joedoe.com")
-                .password("Abcd1234678") // Different current password
+                .password("Abcd1234678")
                 .build();
 
         when(userGateway.findUserById(any())).thenReturn(user);
