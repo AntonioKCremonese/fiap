@@ -171,52 +171,6 @@ class UserUseCaseTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenUpdatingUserWithExistingLogin() {
-        var input = new UserUpdateDTO();
-        input.setName("John Updated");
-        input.setMail("mail_Updated@joedoe.com");
-        input.setUserType(UserTypeEnum.CLIENT);
-        input.setLogin("joe_doe");
-
-        var user = User.builder()
-                .id("12345")
-                .name("John Doe")
-                .mail("mail@joedoe.com")
-                .userType(UserTypeEnum.CLIENT)
-                .login("joe_doe")
-                .build();
-
-        when(userGateway.findUserById(any())).thenReturn(user);
-        when(userGateway.findUserByLogin(any())).thenReturn(Optional.of(user));
-
-        assertThatThrownBy(() -> userUseCase.updateUser("12345", input))
-                .isInstanceOf(UserValidationException.class);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenUpdatingUserWithExistingMail() {
-        var input = new UserUpdateDTO();
-        input.setName("John Updated");
-        input.setMail("mail_Updated@joedoe.com");
-        input.setUserType(UserTypeEnum.CLIENT);
-        input.setLogin("joe_doe");
-
-        var user = User.builder()
-                .id("12345")
-                .name("John Doe")
-                .mail("mail_Updated@joedoe.com")
-                .userType(UserTypeEnum.CLIENT)
-                .login("joe_doe")
-                .build();
-
-        when(userGateway.findUserById(any())).thenReturn(user);
-        when(userGateway.findUserByMail(any())).thenReturn(Optional.of(user));
-
-        assertThatThrownBy(() -> userUseCase.updateUser("12345", input))
-                .isInstanceOf(UserValidationException.class);
-    }
-
-    @Test
     void shouldDeleteUserSuccessfully() {
         var user = User.builder()
                 .id("12345")

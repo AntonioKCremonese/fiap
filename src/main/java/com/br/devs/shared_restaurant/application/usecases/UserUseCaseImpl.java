@@ -44,8 +44,6 @@ public class UserUseCaseImpl implements IUserUseCase {
     @Transactional
     public UserOutputDTO updateUser(String id, UserUpdateDTO input) {
         User existingUser = userGateway.findUserById(id);
-        userGateway.findUserByLogin(input.getLogin()).ifPresent(user -> User.validateLoginAlreadyExists(user.getLogin(), input.getLogin()));
-        userGateway.findUserByMail(input.getMail()).ifPresent(user -> User.validateMailAlreadyExists(user.getMail(), input.getMail()));
         User.update(existingUser, input);
         return UserPresenter.toDTO(userGateway.save(existingUser));
     }
